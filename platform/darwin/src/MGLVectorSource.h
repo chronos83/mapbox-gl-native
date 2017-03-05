@@ -1,3 +1,4 @@
+#import "MGLFeature.h"
 #import "MGLFoundation.h"
 #import "MGLTileSource.h"
 
@@ -42,9 +43,40 @@ NS_ASSUME_NONNULL_BEGIN
 MGL_EXPORT
 @interface MGLVectorSource : MGLTileSource
 
+#pragma mark Initializing a Source
+
 - (instancetype)initWithIdentifier:(NSString *)identifier configurationURL:(NSURL *)configurationURL NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithIdentifier:(NSString *)identifier tileURLTemplates:(NS_ARRAY_OF(NSString *) *)tileURLTemplates options:(nullable NS_DICTIONARY_OF(MGLTileSourceOption, id) *)options NS_DESIGNATED_INITIALIZER;
+
+#pragma mark Querying the source's features
+
+/**
+ Returns an array of map features for this source, restricted to the given
+ source layers and filtered by the given predicate.
+ 
+ Each object in the returned array represents a feature for the
+ current style and provides access to attributes specified by the relevant
+ <a href="https://www.mapbox.com/mapbox-gl-style-spec/#sources">tile sources</a>.
+ The returned array includes features specified in vector and GeoJSON tile
+ sources but does not include anything from raster, image, or video sources.
+ 
+ Features come from tiled vector data or GeoJSON data that is converted to tiles
+ internally, so feature geometries are clipped at tile boundaries and features
+ may appear duplicated across tiles. For example, suppose the specified
+ rectangle intersects with a road that spans the screen. The resulting array
+ includes those parts of the road that lie within the map tiles covering the
+ specified rectangle, even if the road extends into other tiles. The portion of
+ the road within each map tile is included individually.
+ 
+ @param sourceLayerIdentifiers The source layers to include in the query. Only the
+    features contained in this source layers are included in the returned array. At
+    least one source layer is required.
+ @param predicate A predicate to filter the returned features.
+ @return An array of objects conforming to the `MGLFeature` protocol that 
+    represent features in the sources used by the current style.
+ */
+- (NS_ARRAY_OF(id <MGLFeature>) *)featuresInSourceLayersWithIdentifiers:(NS_SET_OF(NSString *) *)sourceLayerIdentifiers predicate:(nullable NSPredicate *)predicate NS_SWIFT_NAME(features(sourceLayerIdentifiers:predicate:));
 
 @end
 
