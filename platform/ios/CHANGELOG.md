@@ -36,6 +36,7 @@ Mapbox welcomes participation and contributions from everyone. Please read [CONT
 * When setting an `MGLShapeSource`’s shape to an `MGLFeature` instance, any `UIColor` attribute value is now converted to the equivalent CSS string representation for use with `MGLInterpolationModeIdentity` in style functions. ([#8025](https://github.com/mapbox/mapbox-gl-native/pull/8025))
 * An exception is no longer thrown if layers or sources are removed from a style before they are added. ([#7962](https://github.com/mapbox/mapbox-gl-native/pull/7962))
 * Renamed MGLStyleConstantValue to MGLConstantStyleValue. For compatibility with previous releases, MGLStyleConstantValue is now an alias of MGLConstantStyleValue. ([#8090](https://github.com/mapbox/mapbox-gl-native/pull/8090))
+* Added support for per style property transitions. ([#8010](https://github.com/mapbox/mapbox-gl-native/issues/8010))
 
 ### User interaction
 
